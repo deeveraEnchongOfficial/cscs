@@ -124,7 +124,7 @@ require 'vendor/PHPMailer/src/SMTP.php';
   <div class="login-box">
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="#" class="h1">PPETS</a>
+        <a href="#" class="h1">Forgot password</a>
       </div>
       <div class="card-body">
         <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
