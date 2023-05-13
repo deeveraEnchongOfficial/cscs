@@ -114,6 +114,50 @@ $(function () {
 				lineChartOptions.datasetFill = false;
 			}
 		});
+
+		$.post("../classes/getsalesweekly.php",		
+		function (data)
+		{
+			var products = [];
+			var tally = [];
+			//var colors = [];
+					
+			for (var i in data) {						
+				products.push(data[i].name);
+				tally.push(data[i].TotalSales);
+			}		
+			
+			//colors[0] = '#ff6384';
+			//colors[2] = '#36a2eb';
+			//colors[1] = '#ffcd56';
+
+			var chartdata = {
+				labels: products,
+				datasets: [
+					{
+						label: 'Sales This Week',
+						type: 'line',
+						borderColor: '#009688',
+						backgroundColor: '#009688',
+						fill: false,
+						data: tally
+					}
+				]
+			};
+			
+			if ($('#topSalesWeek') !== undefined && $('#topSalesWeek').get(0) !== undefined){
+				var lineChartCanvas          = $('#topSalesWeek').get(0).getContext('2d');
+				var lineChartOptions         = areaChartOptions;
+				//alert(lineChartCanvas);
+				
+				var lineChart = new Chart(lineChartCanvas,{
+					type: 'line',
+					data: chartdata,
+					options: lineChartOptions
+				});
+				lineChartOptions.datasetFill = false;
+			}
+		});
 		
 		$.post("../classes/getsalesmonthly.php",		
 		function (data)
