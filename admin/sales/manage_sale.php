@@ -153,13 +153,17 @@ if(isset($_GET['id'])){
                                             </tbody>
                                         </table>
                                     </div>
-                                    <h5 class="text-light w-100 d-flex">
+                                    <!-- <h5 class="text-light w-100 d-flex">
                                         <div class="col-auto">Total with vat:</div>
-                                        <div class="col-auto flex-shrink-1 flex-grow-1 truncate-1 text-right" id="amount_wtt_vat"><?= isset($amount) ? format_num($amount) : '0.00' ?></div>
-                                    </h5>
-                                    <h6 class="text-light w-100 d-flex">
+                                        <div class="col-auto flex-shrink-1 flex-grow-1 truncate-1 text-right" id="vatable"><?= isset($amount) ? format_num($amount) : '0.00' ?></div>
+                                    </h5> -->
+                                    <h5 class="text-light w-100 d-flex">
                                         <div class="col-auto">Total:</div>
                                         <div class="col-auto flex-shrink-1 flex-grow-1 truncate-1 text-right" id="amount"><?= isset($amount) ? format_num($amount) : '0.00' ?></div>
+                                    </h5>
+                                    <h6 class="text-light w-100 d-flex">
+                                        <div class="col-auto">Vatable:</div>
+                                        <div class="col-auto flex-shrink-1 flex-grow-1 truncate-1 text-right" id="vatable"><?= isset($amount) ? format_num($amount) : '0.00' ?></div>
                                     </h6>
                                     <h6 class="text-light w-100 d-flex">
                                         <div class="col-auto">Vat:</div>
@@ -237,13 +241,14 @@ if(isset($_GET['id'])){
             var qty = $(this).find('[name="product_qty[]"]').val()
             qty = qty > 0 ? qty : 0
             temp += (parseFloat($(this).find('[name="product_price[]"]').val()) * parseFloat(qty))
-            total = temp * 0.12
+            temp2 = temp / 1.12
+            total = temp2 * 0.12
         })
         $('[name="vat"]').val(parseFloat(total))
         $('#vat').text(parseFloat(total).toLocaleString('en-US'))
         calc_change()
     }
-    function calc_total_amount_wtt_vat(){
+    function calc_total_vatable(){
         var total = 0;
         var temp = 0;
         var temp2 = 0;
@@ -251,11 +256,11 @@ if(isset($_GET['id'])){
             var qty = $(this).find('[name="product_qty[]"]').val()
             qty = qty > 0 ? qty : 0
             temp += (parseFloat($(this).find('[name="product_price[]"]').val()) * parseFloat(qty))
-            temp2 = temp * 0.12
-            total = temp + temp2
+            temp2 = temp / 1.12
+            total = temp2
         })
-        $('[name="amount_wtt_vat"]').val(parseFloat(total))
-        $('#amount_wtt_vat').text(parseFloat(total).toLocaleString('en-US'))
+        $('[name="vatable"]').val(parseFloat(total))
+        $('#vatable').text(parseFloat(total).toLocaleString('en-US'))
         calc_change()
     }
     function calc_total_amount(){
@@ -269,15 +274,15 @@ if(isset($_GET['id'])){
         $('#amount').text(parseFloat(total).toLocaleString('en-US'))
         calc_change()
     }
-    // function calc_total_amount_wtt_vat(){
+    // function calc_total_vatable(){
     //     var total = 0;
     //     $('#product-list tbody tr').each(function(){
     //         var qty = $(this).find('[name="product_qty[]"]').val()
     //         qty = qty > 0 ? qty : 0
     //         total += (parseFloat($(this).find('[name="product_price[]"]').val()) / parseFloat(qty))
     //     })
-    //     $('[name="amount_wtt_vat"]').val(parseFloat(total))
-    //     $('#amount_wtt_vat').text(parseFloat(total).toLocaleString('en-US'))
+    //     $('[name="vatable"]').val(parseFloat(total))
+    //     $('#vatable').text(parseFloat(total).toLocaleString('en-US'))
     //     calc_change()
     // }
     function calc_product(){
@@ -290,7 +295,7 @@ if(isset($_GET['id'])){
         })
         $('#product_total').text(parseFloat(total).toLocaleString('en-US'))
         calc_total_amount()
-        calc_total_amount_wtt_vat()
+        calc_total_vatable()
         calc_vat()
     }
     $(function(){
