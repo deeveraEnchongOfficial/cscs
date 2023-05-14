@@ -68,6 +68,22 @@
                           echo '</p>';
                           echo '</a>';
                         echo '</li>';
+                        echo '<li class="nav-item dropdown">';
+                          echo '<a href="'. base_url .'admin/?page=reports/weekly" class="nav-link nav-reports">';
+                          echo '<i class="nav-icon fas fa-calendar-day"></i>';
+                          echo '<p>';
+                            echo '&nbsp;Weekly Sales Report';
+                          echo '</p>';
+                          echo '</a>';
+                        echo '</li>';
+                        echo '<li class="nav-item dropdown">';
+                          echo '<a href="'. base_url .'admin/?page=reports/monthly" class="nav-link nav-reports">';
+                          echo '<i class="nav-icon fas fa-calendar-day"></i>';
+                          echo '<p>';
+                            echo '&nbsp;Monthly Sales Report';
+                          echo '</p>';
+                          echo '</a>';
+                        echo '</li>';
                       }
                     ?>
                     <?php if($_settings->userdata('type') == 1): ?>
