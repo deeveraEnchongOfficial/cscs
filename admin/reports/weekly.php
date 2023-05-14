@@ -1,5 +1,5 @@
 <?php
-$date = isset($_GET['date']) ? $_GET['date'] : date("Y-m-d");
+$date = isset($_GET['date']) ? $_GET['date'] : date("W");
 $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : 0;
 if($_settings->userdata('type') == 3){
     $user_id = $_settings->userdata('id');
@@ -79,9 +79,20 @@ if($_settings->userdata('type') == 3){
                         if($user_id > 0){
                             $where = " and user_id = '{$user_id}' ";
                         }
-                        $users_qry = $conn->query("SELECT id, concat(firstname, ' ', lastname) as `name` FROM `users` where id in (SELECT user_id FROM `sale_list` where date(date_created) = '{$date}' {$where}) ");
+                        $year = intval(substr($date, 0, 4));
+                        $week = intval(substr($date, 6));
+
+                        $date = new DateTime();
+                        $date->setISODate($year, $week, 1);
+
+                        $startDate = $date->format('Y-m-d');
+                        $date->modify('+6 days');
+                        $endDate = $date->format('Y-m-d');
+
+                        $users_qry = $conn->query("SELECT id, concat(firstname, ' ', lastname) as `name` FROM `users` where id in (SELECT user_id FROM `sale_list` where date_created >= '$startDate' AND date_created <= '$endDate') ");
                         $user_arr = array_column($users_qry->fetch_all(MYSQLI_ASSOC),'name', 'id');
-						$qry = $conn->query("SELECT * FROM `sale_list` where date(date_created) = '{$date}' {$where} order by unix_timestamp(date_updated) desc ");
+						$qry = $conn->query("SELECT * FROM `sale_list` where date_created >= '$startDate' AND date_created <= '$endDate' order by unix_timestamp(date_updated) desc ");
+
 						while($row = $qry->fetch_assoc()):
                             $total += $row['amount'];
 					?>
@@ -118,9 +129,8 @@ if($_settings->userdata('type') == 3){
         </div>
         <div class="col-8 text-center" style="line-height:.9em">
             <h4 class="text-center m-0"><?= $_settings->info('name') ?></h4>
-            <h3 class="text-center m-0"><b>Daily Sales Report</b></h3>
-            <h5 class="text-center m-0"><b>as of</b></h5>
-            <h3 class="text-center m-0"><b><?= date("F d, Y", strtotime($date)) ?></b></h3>
+            <h3 class="text-center m-0"><b>Weekly Sales Report</b></h3>
+            <h3 class="text-center m-0"><b><?= $week ?> Week of Year <?= $year ?></b></h3>
         </div>
     </div>
     <hr>
