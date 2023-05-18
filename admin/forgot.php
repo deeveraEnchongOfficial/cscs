@@ -119,38 +119,100 @@ require 'vendor/PHPMailer/src/SMTP.php';
   <?php
     }
   }
+
+
+  if (isset($_POST['secret_key'])) {
+
+    // session_start();
+    include('dbcon.php');
+    $conn = dbcon();
+    $contact_no = $_POST['secret_key'];
+    /*................................................ admin .....................................................*/
+    $query = "SELECT * FROM users WHERE contact_no='$contact_no'";
+    $result = mysqli_query($conn, $query) or die(mysqli_error());
+    $row = mysqli_fetch_array($result);
+    $num_row = mysqli_num_rows($result);
+
+    if ($num_row > 0) {
+  ?>
+        <script type='text/javascript'>
+          toastr.success('Email Matched');
+          var delay = 1000;
+          setTimeout(function() {
+            window.location = 'secret_key.php'
+          }, delay);
+        </script>
+      <?php
+      
+    } else {
+      ?>
+      <script type='text/javascript'>
+        toastr.info('Incorrect email..!');
+      </script>
+  <?php
+    }
+  }
   ?>
 
-  <div class="login-box">
-    <div class="card card-outline card-primary">
-      <div class="card-header text-center">
-        <a href="#" class="h1">Forgot password</a>
-      </div>
-      <div class="card-body">
-        <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
-        <form id="login_form1" action="forgot.php" method="post">
-          <div class="input-group mb-3">
-            <input type="email" class="form-control" name="contact_no" placeholder="Email" required>
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
+<div class="login-box">
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="email-tab" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-selected="true">Email</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text" aria-selected="false">Secret Key</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="email" role="tabpanel" aria-labelledby="email-tab">
+          <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
+          <form id="login_form1" action="forgot.php" method="post">
+            <div class="input-group mb-3">
+              <input type="email" class="form-control" name="contact_no" placeholder="Email" required>
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <button type="submit" class="btn btn-primary btn-block">Sent OTP</button>
+            <div class="row">
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block">Send OTP</button>
+              </div>
             </div>
-            <!-- /.col -->
-          </div>
-        </form>
-        <p class="mt-3 mb-1">
-          <a href="index.php">Login</a>
-        </p>
+          </form>
+        </div>
+        <div class="tab-pane fade" id="text" role="tabpanel" aria-labelledby="text-tab">
+          <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
+          <form id="login_form2" action="forgot.php" method="post">
+            <div class="input-group mb-3">
+              <input type="email" class="form-control" name="secret_key" placeholder="Email" required>
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-      <!-- /.login-card-body -->
+      <p class="mt-3 mb-1">
+        <a href="index.php">Login</a>
+      </p>
     </div>
+    <!-- /.login-card-body -->
   </div>
+</div>
+
   <!-- /.login-box -->
 
   <!-- jQuery -->

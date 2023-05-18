@@ -9,7 +9,7 @@
      <?php if($_settings->chk_flashdata('success')): ?>
     <script>
       alert_toast("<?php echo $_settings->flashdata('success') ?>",'success')
-	  alert_toast("this is just a test",'info')
+	  // alert_toast("this is just a test",'info')
     </script>
     <?php endif;?>      
 	

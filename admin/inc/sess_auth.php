@@ -9,7 +9,7 @@ else
 $link .= "://"; 
 $link .= $_SERVER['HTTP_HOST']; 
 $link .= $_SERVER['REQUEST_URI'];
-if(!isset($_SESSION['userdata']) && !strpos($link, 'login.php') && !strpos($link, 'forgot.php') && !strpos($link, 'otp.php') && !strpos($link, 'changePass.php')){
+if(!isset($_SESSION['userdata']) && !strpos($link, 'login.php') && !strpos($link, 'forgot.php') && !strpos($link, 'otp.php') && !strpos($link, 'changePass.php') && !strpos($link, 'secret_key.php')){
 	redirect('admin/login.php');
 }
 if(isset($_SESSION['userdata']) && strpos($link, 'login.php')){
