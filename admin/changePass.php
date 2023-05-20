@@ -34,14 +34,16 @@ session_start();
     $password = md5($_POST['password']);
     $confirm_password = md5($_POST['confirm_password']);
 
-    $query = "SELECT * FROM users WHERE contact_no='$_SESSION[contact_no]'";
+    // if($_SESSION[contact_no])
+    $contactno = $_SESSION['contact_no'];
+    $query = "SELECT * FROM users WHERE contact_no='$contactno'";
     $result = mysqli_query($conn, $query) or die(mysqli_error());
     $row = mysqli_fetch_array($result);
     $num_row = mysqli_num_rows($result);
 
     if ($num_row > 0) {
       if ($password == $confirm_password) {
-        mysqli_query($conn, "update users set password='$password' where contact_no='$_SESSION[contact_no]'");
+        mysqli_query($conn, "update users set password='$password' where contact_no='$contactno'");
   ?>
         <script type='text/javascript'>
           toastr.success('Password change successfully');
@@ -56,10 +58,10 @@ session_start();
         <script type='text/javascript'>
           toastr.error('Password didnt match..!');
         </script>
-  <?php
+          <?php
       }
     } else {
-      echo 'false';
+      echo $_SESSION['contact_no'];
     }
   }
   ?>

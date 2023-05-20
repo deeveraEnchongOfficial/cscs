@@ -56,7 +56,7 @@ require 'vendor/PHPMailer/src/SMTP.php';
 
         // echo $row['contact_no'];
 
-        echo $_SESSION['contact_no'] = $row['contact_no'];
+        // echo $_SESSION['contact_no'] = $row['contact_no'];
 
         $email = $contact_no;
         $subject = "Verification";
